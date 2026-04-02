@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andre D. Sombillo — Computer Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #111213;
+    --bg2: #1a1b1d;
+    --bg3: #222426;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.18);
+    --text: #e8e9ea;
+    --text-secondary: #888b90;
+    --text-tertiary: #555860;
+    --accent: #e8e9ea;
+    --accent-dim: rgba(232,233,234,0.06);
+    --tag-bg: rgba(255,255,255,0.05);
+    --tag-border: rgba(255,255,255,0.1);
+    --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
+  }
+  [data-theme="light"] {
+    --bg: #f4f4f2;
+    --bg2: #ebebea;
+    --bg3: #e0e0de;
+    --border: rgba(0,0,0,0.08);
+    --border-hover: rgba(0,0,0,0.18);
+    --text: #111213;
+    --text-secondary: #555860;
+    --text-tertiary: #999ba0;
+    --accent: #111213;
+    --accent-dim: rgba(0,0,0,0.04);
+    --tag-bg: rgba(0,0,0,0.04);
+    --tag-border: rgba(0,0,0,0.1);
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+  }
+
+  /* ── SCANLINE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.015) 2px,
+      rgba(0,0,0,0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    transition: background 0.3s;
+  }
+
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--text); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    width: 34px; height: 34px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+    font-size: 14px;
+  }
+  .theme-toggle:hover { border-color: var(--border-hover); color: var(--text); }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 2.5rem; max-width: 1000px; margin: 0 auto; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 80px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--text-tertiary);
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .hero-title-sep { color: var(--text-tertiary); }
+
+  .hero-bio {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    font-weight: 400;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border-color: var(--border);
+  }
+  .btn-outline:hover { border-color: var(--border-hover); color: var(--text); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 2.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px; height: 40px;
+    background: var(--text-tertiary);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.1em;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text { font-size: 1rem; color: var(--text-secondary); line-height: 1.9; }
+  .about-text p + p { margin-top: 1rem; }
+  .about-details { display: flex; flex-direction: column; gap: 1rem; }
+  .about-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg2);
+    transition: border-color 0.2s;
+  }
+  .about-detail:hover { border-color: var(--border-hover); }
+  .about-detail-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .about-detail-value { font-size: 0.95rem; color: var(--text); font-weight: 600; }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-group {
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg2);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-group:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .skill-group-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .skill-tag:hover { border-color: var(--border-hover); color: var(--text); }
+
+  /* ── EXPERIENCE ── */
+  .experience-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  .experience-item:last-child { border-bottom: 1px solid var(--border); }
+  .exp-meta { }
+  .exp-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .exp-company {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-top: 0.4rem;
+  }
+  .exp-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+  .exp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .exp-list li {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .exp-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--text-tertiary);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg2);
+    transition: border-color 0.25s, transform 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+  .project-slideshow {
+    width: 100%;
+    aspect-ratio: 16/9;
+    min-height: 180px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+  .project-slideshow::after {
+    content: attr(data-label);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 24px 24px;
+    z-index: 0;
+  }
+  .project-slideshow img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .project-slideshow img.active { opacity: 1; }
+  .slide-btn {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff;
+    width: 28px; height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 3;
+    transition: background 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .slide-btn:hover { background: rgba(0,0,0,0.8); }
+  .slide-btn.prev { left: 8px; }
+  .slide-btn.next { right: 8px; }
+  .slide-dots {
+    position: absolute;
+    bottom: 8px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 5px;
+    z-index: 3;
+  }
+  .slide-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+    padding: 0;
+  }
+  .slide-dot.active { background: #fff; transform: scale(1.3); }
+  .project-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .project-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .project-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-tertiary);
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    padding: 0.2rem 0.55rem;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── CERTIFICATIONS ── */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .cert-card {
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg2);
+    transition: border-color 0.2s;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .cert-card:hover { border-color: var(--border-hover); }
+  .cert-icon {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+  .cert-info { }
+  .cert-name { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+  .cert-issuer {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.06em;
+  }
+  .cert-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+    margin-top: 0.4rem;
+  }
+
+  /* ── CONTACT ── */
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .contact-text { font-size: 1rem; color: var(--text-secondary); line-height: 1.8; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--bg2);
+  }
+  .contact-link:hover { border-color: var(--border-hover); background: var(--bg3); }
+  .contact-link-icon {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    width: 60px;
+    letter-spacing: 0.06em;
+  }
+  .contact-link-label { font-size: 0.9rem; color: var(--text); font-weight: 500; }
+  .contact-link-arrow { margin-left: auto; color: var(--text-tertiary); font-size: 0.8rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.will-animate {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .fade-in.will-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 700px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.25rem; }
+    #hero { padding: 5rem 1.25rem 3rem; min-height: auto; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+    .experience-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .hero-scroll { display: none; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero"><span>andre</span>.dev</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="position:relative;">
+  <div class="hero-label">Computer Engineer</div>
+  <h1 class="hero-name">Andre D.<br>Sombillo</h1>
+  <div class="hero-title">
+    <span>IT Intern @ Tiger Global</span>
+    <span class="hero-title-sep">/</span>
+    <span>BS Computer Engineering</span>
+    <span class="hero-title-sep">/</span>
+    <span>Cavite, PH</span>
+  </div>
+  <p class="hero-bio">Versatile computer engineer with hands-on expertise across hardware, software, networking, and embedded systems. I build things that work — from machine learning pipelines to IoT safety systems.</p>
+  <div class="hero-actions">
+    <a href="RESUME_SOMBILLO.pdf" download class="btn btn-primary">↓ Resume</a>
+    <a href="#projects" class="btn btn-outline">View Projects</a>
+    <a href="#contact" class="btn btn-outline">Get in Touch</a>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header fade-in">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>I'm a Computer Engineering graduate from National University – Dasmariñas with a passion for building systems that solve real problems. Whether it's configuring enterprise network infrastructure or training a machine learning model, I thrive at the intersection of hardware and software.</p>
+      <p>Currently completing an IT internship where I handle everything from server configuration and network administration to end-user support across multiple departments. I'm committed to growing as a well-rounded engineer with a strong foundation in both theory and practice.</p>
+    </div>
+    <div class="about-details fade-in">
+      <div class="about-detail">
+        <span class="about-detail-label">Degree</span>
+        <span class="about-detail-value">BS Computer Engineering</span>
+      </div>
+      <div class="about-detail">
+        <span class="about-detail-label">University</span>
+        <span class="about-detail-value">National University – Dasmariñas</span>
+      </div>
+      <div class="about-detail">
+        <span class="about-detail-label">Currently</span>
+        <span class="about-detail-value">IT Intern @ Tiger Global Business Services</span>
+      </div>
+      <div class="about-detail">
+        <span class="about-detail-label">Location</span>
+        <span class="about-detail-value">Dasmariñas, Cavite, Philippines</span>
+      </div>
+      <div class="about-detail">
+        <span class="about-detail-label">Email</span>
+        <span class="about-detail-value"><a href="https://mail.google.com/mail/?view=cm&to=andre.sombillo@gmail.com&subject=Hello%20Andre" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">andre.sombillo@gmail.com</a></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header fade-in">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Programming</div>
+      <div class="skill-tags">
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Embedded C</span>
+        <span class="skill-tag">Arduino IDE</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Hardware & Embedded</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Raspberry Pi</span>
+        <span class="skill-tag">ESP32</span>
+        <span class="skill-tag">Arduino</span>
+        <span class="skill-tag">PCB Design</span>
+        <span class="skill-tag">Microcontrollers</span>
+        <span class="skill-tag">Circuit Design</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">AI & Machine Learning</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Machine Learning</span>
+        <span class="skill-tag">Deep Learning</span>
+        <span class="skill-tag">Computer Vision</span>
+        <span class="skill-tag">TensorFlow Lite</span>
+        <span class="skill-tag">OpenCV</span>
+        <span class="skill-tag">AI Prompting</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Networking & IT</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Network Security</span>
+        <span class="skill-tag">Routers & Switches</span>
+        <span class="skill-tag">Firewalls</span>
+        <span class="skill-tag">Servers</span>
+        <span class="skill-tag">Microsoft 365 Admin</span>
+        <span class="skill-tag">IT Asset Management</span>
+        <span class="skill-tag">Help Desk</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">IoT & Systems</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Blynk IoT</span>
+        <span class="skill-tag">IoT Systems</span>
+        <span class="skill-tag">Sensors & Actuators</span>
+        <span class="skill-tag">Embedded Systems</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Soft Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Problem Solving</span>
+        <span class="skill-tag">Team Leadership</span>
+        <span class="skill-tag">Written Communication</span>
+        <span class="skill-tag">Adaptability</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header fade-in">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="fade-in">
+    <div class="experience-item">
+      <div class="exp-meta">
+        <div class="exp-date">FEB 2026<br>— MAY 2026</div>
+        <div class="exp-company">Tiger Global Business Services, Inc.<br>Alabang, Muntinlupa</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">IT Intern</div>
+        <ul class="exp-list">
+          <li>Troubleshot hardware and software issues for end-users, improving resolution time.</li>
+          <li>Maintained IT inventory and asset management systems, ensuring up-to-date records.</li>
+          <li>Conducted routine maintenance on computer systems and peripherals.</li>
+          <li>Collaborated with colleagues to document IT processes and procedures.</li>
+          <li>Aided in user account creation and permissions management across systems.</li>
+          <li>Installed, configured, and tested routers, switches, firewalls, and servers.</li>
+          <li>Updated hardware, software, and security protections with the latest standards.</li>
+          <li>Resolved daily IT desktop client issues across multiple departments and offices.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header fade-in">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card fade-in">
+      <div class="project-slideshow" data-slide="0" data-label="IntelliSort">
+        <img src="images/intellisort-1.jpg" alt="IntelliSort photo 1" class="active">
+        <img src="images/intellisort-2.jpg" alt="IntelliSort photo 2">
+        <img src="images/intellisort-3.jpg" alt="IntelliSort photo 3">
+        <button class="slide-btn prev">&#8592;</button>
+        <button class="slide-btn next">&#8594;</button>
+        <div class="slide-dots">
+          <button class="slide-dot active"></button>
+          <button class="slide-dot"></button>
+          <button class="slide-dot"></button>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">IntelliSort</div>
+        <p class="project-desc">ML-based reverse vending machine that classifies PET bottles and aluminum cans using computer vision for real-time waste segregation. Includes automated coin dispensing and IoT-based monitoring.</p>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">TensorFlow Lite</span>
+          <span class="project-tag">Raspberry Pi</span>
+          <span class="project-tag">OpenCV</span>
+          <span class="project-tag">Blynk IoT</span>
+          <span class="project-tag">ESP32</span>
+          <span class="project-tag">Computer Vision</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-slideshow" data-slide="0" data-label="GLUCS">
+        <img src="images/glucs-1.jpg" alt="GLUCS photo 1" class="active">
+        <img src="images/glucs-2.jpg" alt="GLUCS photo 2">
+        <img src="images/glucs-3.jpg" alt="GLUCS photo 3">
+        <button class="slide-btn prev">&#8592;</button>
+        <button class="slide-btn next">&#8594;</button>
+        <div class="slide-dots">
+          <button class="slide-dot active"></button>
+          <button class="slide-dot"></button>
+          <button class="slide-dot"></button>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">GLUCS</div>
+        <p class="project-desc">IoT-enabled gas leak detection system with automated response for residential and industrial use. Features real-time gas monitoring, voice alerts, exhaust control, and fire prevention.</p>
+        <div class="project-tags">
+          <span class="project-tag">ESP32</span>
+          <span class="project-tag">Arduino IDE</span>
+          <span class="project-tag">MQ-2 Sensor</span>
+          <span class="project-tag">Blynk IoT</span>
+          <span class="project-tag">Embedded C/C++</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-slideshow" data-slide="0" data-label="Solar Seeker">
+        <img src="images/solar-1.jpg" alt="Solar Seeker photo 1" class="active">
+        <img src="images/solar-2.jpg" alt="Solar Seeker photo 2">
+        <img src="images/solar-3.jpg" alt="Solar Seeker photo 3">
+        <button class="slide-btn prev">&#8592;</button>
+        <button class="slide-btn next">&#8594;</button>
+        <div class="slide-dots">
+          <button class="slide-dot active"></button>
+          <button class="slide-dot"></button>
+          <button class="slide-dot"></button>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">Solar Seeker</div>
+        <p class="project-desc">Arduino-based solar tracking system that automatically aligns toward a light source using sensor-driven feedback and servo motor control to maximize energy efficiency.</p>
+        <div class="project-tags">
+          <span class="project-tag">Arduino Uno</span>
+          <span class="project-tag">C/C++</span>
+          <span class="project-tag">Photoresistor (LDR)</span>
+          <span class="project-tag">Servo Motor</span>
+          <span class="project-tag">Circuit Design</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-slideshow" data-slide="0" data-label="PCB Design">
+        <img src="images/pcb-1.jpg" alt="PCB Design photo 1" class="active">
+        <img src="images/pcb-2.jpg" alt="PCB Design photo 2">
+        <img src="images/pcb-3.jpg" alt="PCB Design photo 3">
+        <button class="slide-btn prev">&#8592;</button>
+        <button class="slide-btn next">&#8594;</button>
+        <div class="slide-dots">
+          <button class="slide-dot active"></button>
+          <button class="slide-dot"></button>
+          <button class="slide-dot"></button>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">PCB Design & Development</div>
+        <p class="project-desc">Custom printed circuit board featuring representations of 7 logic gates and a 2-channel 12V relay module with dual power supply rails (5V & 12V). Hand-soldered with a full range of discrete components including LEDs, transistors, relays, resistors, capacitors, and terminal blocks.</p>
+        <div class="project-tags">
+          <span class="project-tag">PCB Design</span>
+          <span class="project-tag">Logic Gates</span>
+          <span class="project-tag">Relay Module</span>
+          <span class="project-tag">Power Supply</span>
+          <span class="project-tag">Soldering</span>
+          <span class="project-tag">Transistors</span>
+          <span class="project-tag">Embedded Systems</span>
+          <span class="project-tag">Circuit Design</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-header fade-in">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Certifications</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-info">
+        <div class="cert-name">IT Specialist – Networking</div>
+        <div class="cert-issuer">Certiport</div>
+        <div class="cert-date">June 19, 2025</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-info">
+        <div class="cert-name">IT Specialist – Software Development</div>
+        <div class="cert-issuer">Certiport</div>
+        <div class="cert-date">October 7, 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header fade-in">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-wrapper">
+    <div class="contact-text fade-in">
+      <p>Open to full-time roles, freelance projects, and collaborations in IT infrastructure, embedded systems, and software development. Feel free to reach out — I'd love to connect.</p>
+    </div>
+    <div class="contact-links fade-in">
+      <a class="contact-link" href="https://mail.google.com/mail/?view=cm&to=andre.sombillo@gmail.com&subject=Hello%20Andre" target="_blank" rel="noopener">
+        <span class="contact-link-icon">Email</span>
+        <span class="contact-link-label">andre.sombillo@gmail.com</span>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/andre-sombillo" target="_blank" rel="noopener">
+        <span class="contact-link-icon">LinkedIn</span>
+        <span class="contact-link-label">linkedin.com/in/andre-sombillo</span>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a class="contact-link" href="tel:+639217752128">
+        <span class="contact-link-icon">Phone</span>
+        <span class="contact-link-label">+63 921 7752 128</span>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a class="contact-link" href="RESUME_SOMBILLO.pdf" download>
+        <span class="contact-link-icon">Resume</span>
+        <span class="contact-link-label">Download PDF</span>
+        <span class="contact-link-arrow">↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2026 Andre D. Sombillo</span>
+  <span class="footer-copy">Built with HTML / CSS / JS</span>
+</footer>
+
+<script>
+  // Theme toggle
+  const toggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+  let currentTheme = 'dark';
+  html.setAttribute('data-theme', currentTheme);
+  toggle.textContent = '☀';
+
+  toggle.addEventListener('click', () => {
+    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', currentTheme);
+    toggle.textContent = currentTheme === 'dark' ? '☀' : '☾';
+    try { localStorage.setItem('theme', currentTheme); } catch(e) {}
+  });
+
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    el.classList.add('will-animate');
+    observer.observe(el);
+  });
+
+  // Slideshow
+  function slide(ss, dir) {
+    const imgs = ss.querySelectorAll('img');
+    const dots = ss.querySelectorAll('.slide-dot');
+    let cur = parseInt(ss.dataset.slide) || 0;
+    imgs[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = (cur + dir + imgs.length) % imgs.length;
+    imgs[cur].classList.add('active');
+    dots[cur].classList.add('active');
+    ss.dataset.slide = cur;
+  }
+
+  document.querySelectorAll('.slide-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ss = btn.closest('.project-slideshow');
+      slide(ss, btn.classList.contains('next') ? 1 : -1);
+    });
+  });
+
+  document.querySelectorAll('.slide-dot').forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      const ss = dot.closest('.project-slideshow');
+      const imgs = ss.querySelectorAll('img');
+      const dots = ss.querySelectorAll('.slide-dot');
+      const cur = parseInt(ss.dataset.slide) || 0;
+      imgs[cur].classList.remove('active');
+      dots[cur].classList.remove('active');
+      imgs[i].classList.add('active');
+      dots[i].classList.add('active');
+      ss.dataset.slide = i;
+    });
+  });
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+    });
+  });
+</script>
+</body>
+</html>
